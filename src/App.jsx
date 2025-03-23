@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import fetchArticles from "./components/js/asincFunc";
+import fetchArticles from "./utils/asincFunc";
 import { Route, Routes, useParams, useSearchParams, Link } from "react-router-dom";
-import HomePage from "./components/pages/HomePage/HomePage";
-import MoviesPage from "./components/pages/MoviesPage/MoviesPage";
-import MovieDetailsPage from "./components/pages/MovieDetailsPage/MovieDetailsPage";
+import HomePage from "./pages/HomePage/HomePage";
+import MoviesPage from "./pages/MoviesPage/MoviesPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage/MovieDetailsPage";
 import MovieCast from "./components/MovieCast/MovieCast";
 import MovieReviews from "./components/MovieReviews/MovieReviews";
-import NotFoundPage from "./components/pages/NotFoundPage/NotFoundPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import style from './App.module.css'
+
 
 function App() {
 const [searchParams, setSearchParams] = useSearchParams();
@@ -18,7 +20,14 @@ const [articles , setArticles]= useState(null);
 
 
 console.log(searchParams.get('query'));
+const handelSearch = async (topic) => {
+try {
+  const data = await fetchArticles(topic)
+} catch (error) {
+  console.log(error);
+}
 
+}
 
   useEffect(() => {
     fetchArticles(setArticles);
@@ -26,14 +35,14 @@ console.log(searchParams.get('query'));
 console.log(articles);
   return (
     <div>
-      <nav>
+      <nav className={style.navLinks}>
         <Link to="/">HomePage</Link>
         <Link to="/movies">MoviesPage</Link>
         <Link to="/movies/:movieId">MovieDetailsPage</Link>
         <Link to=""></Link>
       </nav>
       <Routes>
-  <Route path="/" element={<HomePage articles={articles}/>} />
+  <Route path="/" element={<HomePage articles={articles} onSearch={handelSearch}/>} />
   
   <Route path="/movies" element={<MoviesPage />} />
   
