@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import style from './HomePage.module.css'
+import MovieList from '../../components/MovieList/MovieList';
 
 const HomePage = ({articles , onSearch}) => {
 const [query, setQuery] = useState('');
@@ -10,7 +11,6 @@ const handelSubmit = (event) => {
     if (!articles || !articles.results) {
         return <p>Завантаження...</p>;
       }
-    console.log(articles.results);
   return (
     <div>
       <div>
@@ -20,7 +20,7 @@ const handelSubmit = (event) => {
        </form>
       </div>
       <ul className={style.filmList} >
-        {articles.results.map(movie => (<li key={movie.id}>{movie.title}</li>))}
+        <MovieList movies={articles.results}/>
       </ul>
     </div>
   );
