@@ -1,27 +1,22 @@
-import { useState } from 'react';
-import style from './HomePage.module.css'
-import MovieList from '../../components/MovieList/MovieList';
+import { useEffect, useState } from "react";
+import style from "./HomePage.module.css";
+import MovieList from "../../components/MovieList/MovieList";
+import { getTrendingMovies } from "../../services/moviesApi";
 
-const HomePage = ({articles , onSearch}) => {
-const [query, setQuery] = useState('');
-const handelSubmit = (event) => {
-    event.preventDefault()
-}
-
-    if (!articles || !articles.results) {
-        return <p>Завантаження...</p>;
-      }
+const HomePage = () => {
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getTrendingMovies();
+        setMovies(data.results)
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
   return (
     <div>
-      <div>
-       <form action="">
-       <input type="text" />
-       <button type="submit">Search</button>
-       </form>
-      </div>
-      <ul className={style.filmList} >
-        <MovieList movies={articles.results}/>
-      </ul>
+      <MovieList movies={movies} />
     </div>
   );
 };

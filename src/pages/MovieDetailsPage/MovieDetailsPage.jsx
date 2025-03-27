@@ -1,14 +1,13 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
-
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const goBackLink = location.state?.from || "/";
+  const goBackLink = useRef(location.state || "/");
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -29,18 +28,18 @@ const MovieDetailsPage = () => {
     fetchMovieDetails();
   }, [movieId]);
 
-if(!movie){
-    return (
-        <p>Loading...</p>
-    )
-}
+  if (!movie) {
+    return <p>Loading...</p>;
+  }
 
-const { title, overview, vote_average, poster_path } = movie;
-const imgUrl = poster_path? 'https://image.tmdb.org/t/p/w500${poster_path}' : 'https://via.placeholder.com/300x450?text=No+Image';
+  const { title, overview, vote_average, poster_path } = movie;
+  const imgUrl = poster_path
+    ? `https://image.tmdb.org/t/p/w500${poster_path}`
+    : `https://via.placeholder.com/300x450?text=No+Image`;
 
-return (
+  return (
     <div>
-      <Link to={goBackLink}>← Назад</Link>
+      <Link to={goBackLink.current}>← Назад</Link>
 
       <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
         <img src={imgUrl} alt={title} width="300" />
