@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy } from "react";
 import "./App.css";
 import fetchArticles from "./utils/asincFunc";
 import {
@@ -8,9 +8,12 @@ import {
   useSearchParams,
   Link,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
-import MoviesPage from "./pages/MoviesPage/MoviesPage";
-import MovieDetailsPage from "./pages/MovieDetailsPage/MovieDetailsPage";
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage/MoviesPage"));
+
+const MovieDetailsPage = lazy(() =>
+  import("./pages/MovieDetailsPage/MovieDetailsPage")
+);
 import MovieCast from "./components/MovieCast/MovieCast";
 import MovieReviews from "./components/MovieReviews/MovieReviews";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";

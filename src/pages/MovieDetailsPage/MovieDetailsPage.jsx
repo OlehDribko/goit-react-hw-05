@@ -23,6 +23,9 @@ const MovieDetailsPage = () => {
         setMovie(response.data);
       } catch (error) {
         console.log(error);
+        if (movie === null) {
+          return alert("Сторінка не знайдена, поверніться на головну");
+        }
       }
     };
     fetchMovieDetails();

@@ -1,4 +1,9 @@
-.moviesList{
-    list-style: none;
-   
+.moviesList {
+  display: flex;
+
+  gap: 30 px;
+  list-style: none;
+  border: 1px solid;
+  border-radius: 8px;
+  background-color: red;
 }
